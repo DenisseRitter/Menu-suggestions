@@ -4,315 +4,173 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title id="pageTitle">Gruppenmenü – ibis Zürich Messe Airport</title>
+
   <style>
-    body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
-      padding: 20px;
-      max-width: 800px;
-      margin: auto;
-      background-color: #fafafa;
-    }
-
-    .logo-top {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .logo-top img {
-      max-width: 200px;
-      height: auto;
-      display: inline-block;
-    }
-
-    h1 {
-      font-size: 1.6rem;
-      margin-bottom: 0.8rem;
-      text-align: center;
-      color: #333;
-    }
-
-    fieldset {
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 14px;
-      margin: 14px 0;
-      background-color: #fff;
-    }
-
-    legend {
-      font-weight: 600;
-    }
-
-    label {
-      display: block;
-      margin: 5px 0;
-      cursor: pointer;
-    }
-
-    .required::after {
-      content: " *";
-      color: red;
-    }
-
-    .btn {
-      background: #0072c6;
-      color: #fff;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background: #005fa3;
-    }
-
-    .row {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    select,
-    input[type="number"],
-    input[type="date"],
-    input[type="email"],
-    input[type="text"],
-    textarea {
-      padding: 6px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 60px;
-    }
-
-    .lang-toggle {
-      text-align: right;
-      margin-bottom: 10px;
-    }
-
-    .note {
-      font-size: 0.9em;
-      color: #555;
-    }
-
-    .intro-text {
-      margin-bottom: 20px;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      color: #333;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 0.8rem;
-      color: #888;
-    }
-
-    footer .logo-small img {
-      max-width: 100px;
-      height: auto;
-      opacity: 0.6;
-    }
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial; padding: 20px; max-width: 800px; margin: auto; background-color: #fafafa; }
+    .logo-top { text-align: center; margin-bottom: 20px; }
+    .logo-top img { max-width: 200px; height: auto; }
+    h1 { font-size: 1.6rem; text-align: center; color: #333; }
+    fieldset { border: 1px solid #ddd; border-radius: 10px; padding: 14px; margin: 14px 0; background-color: #fff; }
+    legend { font-weight: 600; }
+    label { display: block; margin: 5px 0; cursor: pointer; }
+    .required::after { content: " *"; color: red; }
+    .btn { background: #0072c6; color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .btn:hover { background: #005fa3; }
+    select, input, textarea { padding: 6px; border-radius: 6px; border: 1px solid #ccc; }
+    textarea { width: 100%; min-height: 60px; }
+    .lang-toggle { text-align: right; margin-bottom: 10px; }
+    .note { font-size: 0.9em; color: #555; }
+    .intro-text { margin-bottom: 10px; line-height: 1.5; }
+    footer { text-align: center; margin-top: 30px; font-size: 0.8rem; color: #888; }
+    footer img { max-width: 100px; opacity: 0.6; }
   </style>
 </head>
+
 <body>
 
-  <div class="lang-toggle">
-    <label>Language / Sprache:
-      <select id="language" onchange="switchLanguage()">
-        <option value="de">Deutsch</option>
-        <option value="en">English</option>
+<div class="lang-toggle">
+  <label>Language / Sprache:
+    <select id="language" onchange="switchLanguage()">
+      <option value="de">Deutsch</option>
+      <option value="en">English</option>
+    </select>
+  </label>
+</div>
+
+<div class="logo-top">
+  <img src="Logo_ibis_RGB.png" alt="ibis Logo">
+</div>
+
+<h1 id="title">Gruppenmenü – ibis Zürich Messe Airport</h1>
+
+<p id="introText" class="intro-text"></p>
+<p id="menuNote" class="note"></p>
+
+<form onsubmit="return sendEmail(event)">
+  <fieldset>
+    <legend class="required">Vorspeise / Starter</legend>
+    <div id="starters"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend class="required">Hauptgang / Main Course</legend>
+    <div id="mains"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend class="required">Dessert</legend>
+    <div id="desserts"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Angaben / Details</legend>
+
+    <label class="required">Name der Gruppe / Group Name
+      <input type="text" id="groupName" required>
+    </label>
+
+    <label class="required">Datum / Date
+      <input type="date" id="date" required>
+    </label>
+
+    <label class="required">Uhrzeit / Time
+      <select id="time" required>
+        <option value="">Bitte wählen / Please select</option>
+        <option>11:30</option><option>12:00</option><option>12:30</option>
+        <option>18:00</option><option>18:30</option><option>19:00</option>
       </select>
     </label>
-  </div>
 
-  <!-- Dein Logo oben -->
-  <div class="logo-top">
-    <img src="Logo_ibis_RGB.png" alt="ibis Logo">
-  </div>
+    <label class="required">Anzahl Personen / Guests
+      <input type="number" id="guests" min="1" value="1" required>
+    </label>
 
-  <h1 id="title">Gruppenmenü – ibis Zürich Messe Airport</h1>
+    <label class="required">Ihre E-Mail / Your E-mail
+      <input type="email" id="email" required>
+    </label>
 
-  <p id="introText" class="intro-text">
-    Wir freuen uns, Ihnen ein 2- oder 3-Gang-Menü für Ihre Gruppe anbieten zu dürfen. Bitte wählen Sie eine Vorspeise, einen Hauptgang und ein Dessert aus, das gewählte Menü gilt für alle Gäste.<br><br>
-    Bei Fragen oder besonderen Wünschen stehen wir Ihnen selbstverständlich jederzeit gerne zur Verfügung.<br>
-    Wir freuen uns auf Ihre Menüauswahl.
-  </p>
+    <p class="note">Besondere Wünsche / Allergien (optional):</p>
+    <textarea id="comments"></textarea>
+  </fieldset>
 
-  <form id="menuForm" onsubmit="return sendEmail(event)">
-    <fieldset>
-      <legend id="legendStarter" class="required">Vorspeise / Starter</legend>
-      <div id="starters"></div>
-    </fieldset>
+  <button class="btn" type="submit">
+    Auswahl per E-Mail senden
+  </button>
+</form>
 
-    <fieldset>
-      <legend id="legendMain" class="required">Hauptgang / Main Course</legend>
-      <div id="mains"></div>
-    </fieldset>
+<footer>
+  <img src="Logo_ibis_RGB.png" alt="ibis Logo">
+  <div>© ibis Zürich Messe Airport</div>
+</footer>
 
-    <fieldset>
-      <legend id="legendDessert" class="required">Dessert</legend>
-      <div id="desserts"></div>
-    </fieldset>
+<script>
+const data = {
+  de: {
+    starters: ["Kürbiscremesuppe","Kartoffel-Lauch-Suppe","Gemischter Salat","Taboulé-Salat","Keine Vorspeise"],
+    mains: ["Ofen-gebackenes St.-Peterfischfilet mit Zitronen-Olivenöl und Paprika, serviert mit Kräuterkartoffeln","Fischfilet in Knoblauch-Weissweinsauce (Merluza-Art) mit gedämpftem Reis und grünen Bohnen","Zitronen-Kräuter-Hähnchen aus dem Ofen mit spanischem Reis","Ofen-gebackenes Hähnchen mit Reis-Pilaw und frischem Gemüse","Rindergeschnetzeltes Stroganoff mit Pasta","Spaghetti Bolognese","Pasta Primavera mit frischem Gemüse","Vegetarisches Gemüsecurry mit gedämpftem Reis"],
+    desserts: ["Brownie","Panna Cotta mit Beerencoulis","Schokoladenmousse","Fruchtsalat","Kein Dessert"],
+    intro: "Wir freuen uns, Ihnen ein professionelles 2- oder 3-Gang-Menü für Ihre Gruppe anbieten zu dürfen. Bitte wählen Sie je einen Gang aus – das Menü gilt für alle Gäste.",
+    note: "Alle Menüs beinhalten Brot und Wasser und sind im Preis inbegriffen."
+  },
+  en: {
+    starters: ["Pumpkin cream soup","Potato leek soup","Mixed salad","Tabbouleh salad","No starter"],
+    mains: ["Oven-baked St. Peter’s fish with lemon olive oil and paprika, served with herbed potatoes","Garlic white wine fish (Merluza style) with steamed rice and green beans","Lemon herb roasted chicken with Spanish-style rice","Oven-baked chicken with rice pilaf and vegetables","Beef Stroganoff served over pasta","Spaghetti Bolognese","Pasta Primavera","Vegetable curry with steamed rice"],
+    desserts: ["Brownie","Panna Cotta with berry compote","Chocolate mousse","Fruit salad","No dessert"],
+    intro: "We are pleased to offer a professional 2- or 3-course menu for your group. Please select one option per course – the chosen menu applies to all guests.",
+    note: "All menus are served with bread and water, included in the price."
+  }
+};
 
-    <fieldset>
-      <legend id="legendDetails">Angaben / Details</legend>
-      <div class="row">
-        <label id="labelGroupName" class="required">Name der Gruppe / Group Name:
-          <input type="text" id="groupName" required placeholder="z.B. Familie Müller / Smith Family">
-        </label>
+function render(lang) {
+  document.getElementById("introText").textContent = data[lang].intro;
+  document.getElementById("menuNote").textContent = data[lang].note;
 
-        <label id="labelDate" class="required">Datum / Date:
-          <input type="date" id="date" required>
-        </label>
+  document.getElementById("starters").innerHTML =
+    data[lang].starters.map(i => `<label><input type="radio" name="starter" required> ${i}</label>`).join("");
 
-        <label id="labelTime" class="required">Uhrzeit / Time:
-          <select id="time" required>
-            <option value="">-- bitte wählen / please select --</option>
-            <option>11:30</option>
-            <option>12:00</option>
-            <option>12:30</option>
-            <option>13:00</option>
-            <option>18:00</option>
-            <option>18:30</option>
-            <option>19:00</option>
-            <option>19:30</option>
-            <option>20:00</option>
-          </select>
-        </label>
+  document.getElementById("mains").innerHTML =
+    data[lang].mains.map(i => `<label><input type="radio" name="main" required> ${i}</label>`).join("");
 
-        <label id="labelGuests" class="required">Anzahl Personen / Number of guests:
-          <input type="number" id="guests" min="1" value="1" required>
-        </label>
+  document.getElementById("desserts").innerHTML =
+    data[lang].desserts.map(i => `<label><input type="radio" name="dessert" required> ${i}</label>`).join("");
+}
 
-        <label id="labelEmail" class="required">Ihre E-Mail-Adresse / Your E-mail:
-          <input type="email" id="email" required placeholder="name@example.com">
-        </label>
-      </div>
+function switchLanguage() { render(document.getElementById("language").value); }
 
-      <p id="labelComments" class="note">Besondere Wünsche / Allergien (optional):</p>
-      <textarea id="comments"></textarea>
-    </fieldset>
+function sendEmail(e) {
+  e.preventDefault();
 
-    <button class="btn" type="submit" id="submitBtn">Auswahl per E-Mail senden</button>
-    <p class="note" id="note">Beim Klick öffnet sich Ihr E-Mail-Programm und eine neue Mail an H2980-RE@accor.com wird vorbereitet.</p>
-  </form>
+  const starter = document.querySelector('input[name="starter"]:checked');
+  const main = document.querySelector('input[name="main"]:checked');
+  const dessert = document.querySelector('input[name="dessert"]:checked');
+  const date = document.getElementById("date").value;
+  const guests = document.getElementById("guests").value;
+  const time = document.getElementById("time").value;
+  const comments = document.getElementById("comments").value;
+  const groupName = document.getElementById("groupName").value;
+  const emailSender = document.getElementById("email").value;
 
-  <footer>
-    <div class="logo-small">
-      <img src="Logo_ibis_RGB.png" alt="ibis Logo">
-    </div>
-    © ibis Zürich Messe Airport – Alle Rechte vorbehalten
-  </footer>
+  // Empfänger jetzt korrekt mit Semikolon
+  const to = `H2980-RE@accor.com;denisseritter@gmail.com;${emailSender}`;
+  const subject = "Group Menu Selection – ibis Zürich Messe Airport";
 
-  <script>
-    const data = {
-      de: {
-        starters: ["Keine Vorspeise","Karottencremesuppe","Bunter Blattsalat mit Gurke und Tomate & Hausdressing","Caprese Salat","Kürbiscremesuppe"],
-        mains: ["Spinatgnocchi in Tomaten-Ricotta-Sauce","Überbackene Cannelloni mit Ricotta und Spinat in Tomatensauce","Hähnchenschenkel mit Gemüsereis-Pilaw","Hähnchenbrust mit Pilzrahmsauce auf Reis","Spaghetti Bolognese","Schwedische Fleischbällchen mit Gemüse","Fischfilet in Weissweinrahm- oder Puttanesca-Sauce mit Country Potatoes"],
-        desserts: ["Kein Dessert","Fruchtsalat mit Vanilleeis","Schokoladenmousse","Brownie","Panna Cotta"],
-        introText: "Wir freuen uns, Ihnen ein 2- oder 3-Gang-Menü für Ihre Gruppe anbieten zu dürfen. Bitte wählen Sie eine Vorspeise, einen Hauptgang und ein Dessert aus, das gewählte Menü gilt für alle Gäste.\n\nBei Fragen oder besonderen Wünschen stehen wir Ihnen selbstverständlich jederzeit gerne zur Verfügung.\nWir freuen uns auf Ihre Menüauswahl."
-      },
-      en: {
-        starters: ["No starter","Carrot cream soup","Colorful lettuce with cucumber and tomato & house dressing","Caprese salad","Pumpkin cream soup"],
-        mains: ["Spinach gnocchi in tomato and ricotta sauce","Baked cannelloni with ricotta and spinach in tomato sauce","Baked chicken legs with vegetable rice pilaf","Chicken breast with mushroom in cream sauce on rice","Spaghetti Bolognese","Swedish meatballs with vegetables","Fish filet in white wine cream (or Puttanesca) sauce with country potatoes"],
-        desserts: ["No dessert","Fruit salad with vanilla ice cream","Chocolate mousse","Brownie","Panna Cotta"],
-        introText: "We are pleased to offer a 2- or 3-course menu for your group. Please select one starter, one main course, and one dessert; the selected menu applies to all guests.\n\nIf you have any questions or special requests, we are always happy to assist you.\nWe look forward to your menu selection."
-      }
-    };
-
-    const texts = {
-      de: { title:"Gruppenmenü – ibis Zürich Messe Airport", pageTitle:"Gruppenmenü – ibis Zürich Messe Airport", starter:"Vorspeise", main:"Hauptgang", dessert:"Dessert", details:"Angaben", date:"Datum", guests:"Anzahl Personen", time:"Uhrzeit", comments:"Besondere Wünsche / Allergien (optional):", submit:"Auswahl per E-Mail senden", note:"Beim Klick öffnet sich Ihr E-Mail-Programm und eine neue Mail an H2980-RE@accor.com wird vorbereitet." },
-      en: { title:"Group Menu – ibis Zürich Messe Airport", pageTitle:"Group Menu – ibis Zürich Messe Airport", starter:"Starter", main:"Main Course", dessert:"Dessert", details:"Details", date:"Date", guests:"Number of guests", time:"Time", comments:"Special requests / allergies (optional):", submit:"Send selection by e-mail", note:"Clicking will open your e-mail program and prepare a message to H2980-RE@accor.com." }
-    };
-
-    function createOptions(list,name){
-      return list.map(item=>`<label><input type="radio" name="${name}" value="${item}" required> ${item}</label>`).join("");
-    }
-
-    function renderMenu(lang){
-      document.getElementById("starters").innerHTML  = createOptions(data[lang].starters,"starter");
-      document.getElementById("mains").innerHTML     = createOptions(data[lang].mains,"main");
-      document.getElementById("desserts").innerHTML  = createOptions(data[lang].desserts,"dessert");
-    }
-
-    function switchLanguage(){
-      const lang = document.getElementById("language").value;
-      const t    = texts[lang];
-      document.title                                       = t.pageTitle;
-      document.getElementById("pageTitle").textContent     = t.pageTitle;
-      document.getElementById("title").textContent         = t.title;
-      document.getElementById("legendStarter").textContent = t.starter + " / Starter";
-      document.getElementById("legendMain").textContent    = t.main    + " / Main Course";
-      document.getElementById("legendDessert").textContent = t.dessert;
-      document.getElementById("legendDetails").textContent = t.details;
-      document.getElementById("labelDate").firstChild.textContent   = t.date   + " / Date: ";
-      document.getElementById("labelGuests").firstChild.textContent = t.guests + ": ";
-      document.getElementById("labelTime").firstChild.textContent   = t.time   + ": ";
-      document.getElementById("labelComments").textContent          = t.comments;
-      document.getElementById("submitBtn").textContent              = t.submit;
-      document.getElementById("note").textContent                   = t.note;
-      document.getElementById("introText").textContent              = data[lang].introText;
-      renderMenu(lang);
-    }
-
-    function sendEmail(e){
-      e.preventDefault();
-      const groupName = document.getElementById('groupName').value.trim();
-      const starter   = document.querySelector('input[name="starter"]:checked');
-      const main      = document.querySelector('input[name="main"]:checked');
-      const dessert   = document.querySelector('input[name="dessert"]:checked');
-      const date      = document.getElementById('date').value;
-      const guests    = document.getElementById('guests').value;
-      const time      = document.getElementById('time').value;
-      const comments  = document.getElementById('comments').value.trim()||"–";
-      const email     = document.getElementById('email').value.trim();
-
-      if(!groupName || !starter || !main || !dessert || !date || !time || !guests || !email){
-        alert('Bitte alle Pflichtfelder ausfüllen / Please fill in all required fields.');
-        return false;
-      }
-
-      const to      = 'H2980-RE@accor.com';
-      const subject = 'Group Menu – ibis Zürich Messe Airport';
-      const body    =
-`🍽️ *GRUPPE / GROUP NAME: ${groupName.toUpperCase()}*
+  const body = `📅 Datum / Date: ${date}
+👥 Anzahl Personen / Guests: ${guests}
+🕒 Uhrzeit / Time: ${time}
+🥗 Vorspeise / Starter: ${starter ? starter.value : ''}
+🍝 Hauptgang / Main Course: ${main ? main.value : ''}
+🍰 Dessert: ${dessert ? dessert.value : ''}
+💬 Kommentare / Comments: ${comments}
 ━━━━━━━━━━━━━━━━━━━━━━━
-📅 Datum / Date:
-${date}
+Gesendet von: ${groupName} <${emailSender}>
+ibis Zürich Messe Airport Menüformular`;
 
-🥗 Vorspeise / Starter:
-${starter.value}
+  window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  return false;
+}
 
-🍝 Hauptgang / Main Course:
-${main.value}
+render("de");
+</script>
 
-🍰 Dessert:
-${dessert.value}
-
-👥 Anzahl Personen / Guests:
-${guests}
-
-🕒 Uhrzeit / Time:
-${time}
-
-💬 Kommentare / Comments:
-${comments}
-━━━━━━━━━━━━━━━━━━━━━━━
-Gesendet von: ibis Zürich Messe Airport Menüformular`;
-
-      window.location.href = `mailto:${encodeURIComponent(to)}?bcc=${encodeURIComponent(email)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      return false;
-    }
-
-    renderMenu("de");
-  </script>
 </body>
 </html>
